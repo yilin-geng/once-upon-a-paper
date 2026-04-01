@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "once-upon-a-paper"
+version = "0.1.0"
+description = "LLM-powered related work scanner for AI conferences"
+requires-python = ">=3.10"
+dependencies = [
+    "click>=8.0",
+    "rich>=13.0",
+    "requests>=2.31",
+    "tiktoken>=0.7",
+    "platformdirs>=4.0",
+]
+
+[project.optional-dependencies]
+openai = ["openai>=1.0"]
+anthropic = ["anthropic>=0.30"]
+huggingface = ["transformers>=4.40", "torch>=2.0", "accelerate>=0.30"]
+all = ["once-upon-a-paper[openai,anthropic,huggingface]"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+ouap = "ouap.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
