@@ -423,8 +423,11 @@ def scan(
             venues_scanned=venue_list, year_min=year_min, year_max=year_max,
         )
 
-    # Write output files
-    out_dir = Path(output)
+    # Write output files (timestamped subdirectory so runs coexist)
+    from datetime import datetime
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    out_dir = Path(output) / timestamp
     out_dir.mkdir(parents=True, exist_ok=True)
     bib_path = out_dir / "related.bib"
     json_path = out_dir / "related.json"
