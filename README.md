@@ -100,7 +100,7 @@ EOF
 ouap scan -a abstract.txt --dry-run
 
 # Run the scan
-ouap scan -a abstract.txt -m gpt-4o-mini -o results
+ouap scan -a abstract.txt -o results
 
 # Narrow the scope
 ouap scan -a abstract.txt --venues ACL,EMNLP --years 2022-2025 -m gpt-4.1-nano
@@ -143,7 +143,7 @@ Use `--skip-categorize` for a flat list without categories, or `--no-report` to 
 | `--abstract` | `-a` | required | Path to abstract text file, or `-` for stdin |
 | `--venues` | `-v` | `all` | Comma-separated venue codes |
 | `--years` | `-y` | `2016-2026` | Year range as `YYYY-YYYY` |
-| `--model` | `-m` | `gpt-4o-mini` | Model name |
+| `--model` | `-m` | `gemini-2.0-flash` | Model name |
 | `--api-key` | | env var | API key (or set `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` / `GOOGLE_API_KEY`) |
 | `--output` | `-o` | `./results` | Output directory |
 | `--batch-size` | `-b` | `50` | Papers per LLM batch |
