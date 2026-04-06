@@ -71,7 +71,7 @@ MODEL_PRICING: dict[str, dict[str, float]] = {
     "local": {"input": 0.0, "output": 0.0, "provider": "huggingface"},
 }
 
-DEFAULT_MODEL = "gpt-4o-mini"
+DEFAULT_MODEL = "gemini-2.0-flash"
 DEFAULT_CATEGORIZE_BATCH_SIZE = 25
 DEFAULT_REPORT_MAX_PAPERS_PER_SECTION = 30
 
