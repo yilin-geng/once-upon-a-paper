@@ -22,17 +22,18 @@ OpenAI (`gpt-4o-mini`, `gpt-4o`, `gpt-4.1-mini`, `gpt-4.1-nano`), Anthropic (`cl
 ```bash
 conda create -n ouap python=3.11 -y
 conda activate ouap
-pip install -e ".[openai,anthropic]"
+pip install -e .                       # Gemini (default model) works out of the box
+pip install -e ".[openai,anthropic]"   # add OpenAI and/or Anthropic providers
 ```
 
-Set your API key:
+Set the API key for whichever provider you'll use. The default model is `gemini-2.0-flash`, so `GOOGLE_API_KEY` is the one you need unless you pass `-m`:
 
 ```bash
+export GOOGLE_API_KEY="..."
+# or
 export OPENAI_API_KEY="sk-..."
 # or
 export ANTHROPIC_API_KEY="sk-ant-..."
-# or
-export GOOGLE_API_KEY="..."
 ```
 
 Or use a `.env` file (see `.env.example`):
@@ -111,7 +112,7 @@ cat abstract.txt | ouap scan -a - -m gpt-4o-mini --yes
 
 ### 5. Output
 
-After scanning, three files are written to the output directory:
+After scanning, three files are written to a timestamped subdirectory of the output directory (e.g. `results/20260408_153012/`), so multiple runs coexist:
 
 **`related.bib`** — BibTeX entries for all matched papers, ready to drop into your LaTeX project.
 
@@ -161,17 +162,10 @@ Use `--skip-categorize` for a flat list without categories, or `--no-report` to 
 
 ## Cost
 
-Before every scan, a cost estimate is shown across all supported models. Input cost is computed accurately from the cached data; output cost is estimated conservatively. Example for ~5,000 papers:
+Before every scan, a cost estimate is shown across all supported models. Input cost is computed from the cached data; output cost assumes a pessimistic 20% match rate for the categorization and report phases, so the displayed number is an **upper bound** — focused topics with a low match rate typically come in well under it. To see live estimates for your own scope without running a scan:
 
-| Model | Est. Cost |
-|-------|-----------|
-| gpt-4.1-nano | ~$0.05 |
-| gemini-2.0-flash | ~$0.05 |
-| gpt-4o-mini | ~$0.07 |
-| gemini-2.5-flash | ~$0.08 |
-| gpt-4.1-mini | ~$0.20 |
-| claude-haiku | ~$0.40 |
-| gemini-2.5-pro | ~$0.65 |
-| gpt-4o | ~$1.25 |
-| claude-sonnet | ~$1.50 |
-| Local (HF) | $0.00 |
+```bash
+ouap cost -a abstract.txt --venues ACL,EMNLP --years 2022-2025
+```
+
+As a rough order of magnitude for a ~5,000-paper scan (all three phases): the cheapest hosted models (`gemini-2.0-flash`, `gpt-4.1-nano`) come in around $0.15–$0.25, mid-tier models (`gpt-4.1-mini`, `claude-haiku`) around $0.60–$1.30, and frontier models (`gpt-4o`, `claude-sonnet`) around $4–$5. Cost scales roughly linearly with paper count. Local HuggingFace models are free.
